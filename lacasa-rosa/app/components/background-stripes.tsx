@@ -1,4 +1,4 @@
-export default function AuthBackgroundStripes() {
+export default function BackgroundStripes() {
     return(
         <div>
             <div className="bg-[#F2594B] w-[55%] h-full absolute right-0 top-0"></div>

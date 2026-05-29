@@ -1,4 +1,4 @@
-export default function AuthCirclesBottom() {
+export default function CirclesBottom() {
     return(
         <div className="relative flex-1 overflow-hidden">
             <div className="bg-[#F2C84B] w-65 h-65 rounded-full absolute -bottom-12 -left-8"></div>

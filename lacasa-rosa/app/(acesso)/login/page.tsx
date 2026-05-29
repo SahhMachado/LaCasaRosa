@@ -1,14 +1,14 @@
 import { BiSolidShoppingBags } from "react-icons/bi";
 import { Poppins } from "next/font/google";
 import { Major_Mono_Display } from "next/font/google";
-import AuthCirclesTop from "@/app/components/authcircles-top";
-import AuthCirclesBottom from "@/app/components/authcircles-bottom";
-import AuthBackgroundStripes from "@/app/components/authbackground-stripes";
-import Card from "@/app/components/card";
+import CirclesTop from "@/app/components/circles-top";
+import CirclesBottom from "@/app/components/circles-bottom";
+import BackgroundStripes from "@/app/components/background-stripes";
+import Image from "next/image";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["300", "400", "500", "700"],
 });
 
 const majorMono = Major_Mono_Display({
@@ -20,7 +20,7 @@ const majorMono = Major_Mono_Display({
 export default function Login() {
     return(
         <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black">
-            <AuthCirclesTop />
+            <CirclesTop />
 
             <div className={poppins.className + " ml-25 mt-80"}>
                 <BiSolidShoppingBags size={80}/>
@@ -28,9 +28,34 @@ export default function Login() {
                 <h2 className="text-2xl">Realize seu login <br /> para acessar o sistema</h2>
             </div>
             
-            <Card />
-            <AuthBackgroundStripes />
-            <AuthCirclesBottom />
+            <div className={poppins.className + " relative z-10"}>
+                <div className="bg-[#F2EBD5] w-[30%] h-auto p-10 rounded-2xl absolute right-40 -top-70">
+                    <div className="flex flex-col items-center mb-8">
+                        <Image src="/images/logo.png" alt="Logo" width={83} height={70} />
+                    </div>
+
+                    <form className="mb-8">
+                        <label>E-mail:</label>
+                        <input placeholder="Exemplo: vendas@gmail.com" id="email" type="text" 
+                        className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-sm placeholder:opacity-85" />
+
+                        <label>Senha:</label>
+                        <input placeholder="Informe sua senha aqui..." id="senha" type="text" 
+                        className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-sm placeholder:opacity-85" />         
+
+                        <input id="entrar" value="Entrar" type="submit" className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md" />         
+                    </form>
+
+                    <div className="flex flex-col items-center text-sm mb-2">
+                        <p className="text-[#F25EA3] font-light">Não possui login? <a href="#" className="font-bold hover:underline">Clique aqui!</a></p>
+                        <a className="text-[#F25EA3] font-light hover:underline">Esqueci minha senha...</a>
+                    </div>      
+                </div>
+            </div>
+            <BackgroundStripes />
+            <CirclesBottom />
         </div>
     )
 }
