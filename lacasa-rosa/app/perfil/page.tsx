@@ -1,3 +1,5 @@
+"use client";
+
 import { BiSolidShoppingBags } from "react-icons/bi";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Poppins } from "next/font/google";
@@ -5,7 +7,10 @@ import { Major_Mono_Display } from "next/font/google";
 import CirclesTop from "@/app/components/circles-top";
 import CirclesBottom from "@/app/components/circles-bottom";
 import BackgroundStripes from "@/app/components/background-stripes";
+import { FaUser } from "react-icons/fa6";
+import { BsPencilFill } from "react-icons/bs";
 import Image from "next/image";
+import { useState } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -19,6 +24,16 @@ const majorMono = Major_Mono_Display({
 
 
 export default function Perfil() {
+    // Estado para controlar o preview da imagem carregada
+    const [preview, setPreview] = useState<string | null>(null);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setPreview(URL.createObjectURL(file));
+        }
+    };
+
     return(
         <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
             <CirclesTop />
@@ -30,11 +45,28 @@ export default function Perfil() {
             </div>
             
             <div className={poppins.className + " relative z-10"}>
+                {/* Card */}
                 <div className="bg-[#F2EBD5] w-[30%] h-auto p-10 rounded-2xl absolute right-40 -top-90">
-                    <div className="flex flex-col items-center mb-8">
-                        {/* <Image src="/images/logo.png" alt="Logo" width={83} height={70} /> */}
-                    </div>
 
+                    {/* Imagem de perfil */}
+                    <div className="flex flex-col items-center mb-3">
+                        <label className="relative">
+                            <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+
+                            {/* Avatar */}
+                            <div className="w-30 h-30 rounded-full bg-[#F2594B] text-[#F2EBD5] 
+                                            flex flex-col items-center justify-center shadow-lg">
+                                {preview ? (
+                                    <img src={preview} alt="Avatar" className="w-full h-full object-cover rounded-full border-4 border-[#F2594B]" />
+                                    ) : (
+                                    <FaUser size={75} />
+                                )}
+                            </div>
+
+                            {/* ícone lápis */}
+                            <BsPencilFill size={25} className="absolute top-22 right-1" />
+                        </label>
+                    </div>
 
                     <form className="mb-8">
                         <label>Nome:</label>

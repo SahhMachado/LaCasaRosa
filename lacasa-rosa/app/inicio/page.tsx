@@ -47,50 +47,58 @@ export default function Inicio() {
             </div>
 
             {/* Área de produtos */}
-            <div className="text-black text-sm mt-25 flex-1 overflow-y-auto">
-                <div className="flex flex-wrap justify-center items-center gap-y-10 gap-x-44">
-                    <div className="flex flex-col text-center">
-                        <img src="/images/blusinha-croche.jpeg" className="w-50 h-50 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
+            <div className="text-black text-sm mt-10 flex-1 overflow-y-auto">
+                <div className="flex flex-wrap justify-center items-center gap-y-5 gap-x-44">
+                    <div className="flex flex-col text-center mt-5">
+                        <img src="/images/blusinha-croche.jpeg" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                         <p>Blusinha Crochê Charlotte</p>
                         <p>R$ 29,90</p>
+                        <button className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">Adicionar</button>
                     </div>
-                    <div className="flex flex-col text-center">
-                        <img src="#" className="w-50 h-50 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
+                    <div className="flex flex-col text-center mt-5">
+                        <img src="#" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                         <p>Produto XXX</p>
                         <p>R$ 00,00</p>
+                        <button className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">Adicionar</button>
                     </div>
-                    <div className="flex flex-col text-center">
-                        <img src="#" className="w-50 h-50 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
+                    <div className="flex flex-col text-center mt-5">
+                        <img src="#" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                         <p>Produto XXX</p>
                         <p>R$ 00,00</p>
+                        <button className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">Adicionar</button>
                     </div>
-                   <div className="flex flex-col text-center">
-                        <img src="#" className="w-50 h-50 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
+                   <div className="flex flex-col text-center mt-5">
+                        <img src="#" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                         <p>Produto XXX</p>
                         <p>R$ 00,00</p>
+                        <button className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">Adicionar</button>
                     </div>
                     
                     <div className="border border-[#F2C84B]/32 w-full"></div>
 
-                    <div className="flex flex-col text-center">
-                        <img src="/images/shorts-almond.jpeg" className="w-50 h-50 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
+                    <div className="flex flex-col text-center mt-5">
+                        <img src="/images/shorts-almond.jpeg" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                         <p>Shorts Almond</p>
                         <p>R$ 39,90</p>
+                        <button className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">Adicionar</button>
                     </div>
-                    <div className="flex flex-col text-center">
-                        <img src="#" className="w-50 h-50 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
+                    <div className="flex flex-col text-center mt-5">
+                        <img src="#" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                         <p>Produto XXX</p>
                         <p>R$ 00,00</p>
+                        <button className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">Adicionar</button>
                     </div>
-                    <div className="flex flex-col text-center">
-                        <img src="#" className="w-50 h-50 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
+                    <div className="flex flex-col text-center mt-5">
+                        <img src="#" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                         <p>Produto XXX</p>
                         <p>R$ 00,00</p>
+                        <button className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">Adicionar</button>
                     </div>
-                    <div className="flex flex-col text-center">
-                        <img src="#" className="w-50 h-50 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
+                    <div className="flex flex-col text-center mt-5">
+                        <img src="#" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                         <p>Produto XXX</p>
                         <p>R$ 00,00</p>
+                        <button className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">Adicionar</button>
                     </div>
                 </div>
             </div>

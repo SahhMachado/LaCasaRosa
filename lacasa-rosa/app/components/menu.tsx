@@ -38,7 +38,7 @@ export default function Menu({ aberto, fechar }: MenuProps) {
                 <div className="mt-40 flex flex-col">
                     <p className="flex items-center gap-2"><FaGear /> <span>Painel Administrativo</span></p>
                     <div className="mt-4 mb-4 border-b border-[#F2594B]"></div>
-                    <a href="#" className="mb-5 flex items-center gap-2"><BsCircleSquare /> <span className="hover:underline">Estoque</span></a>
+                    <a href="/estoque" className="mb-5 flex items-center gap-2"><BsCircleSquare /> <span className="hover:underline">Estoque</span></a>
                     <a href="#" className="mb-5 flex items-center gap-2"><FaUser /> <span className="hover:underline">Usuários</span></a>
                     <a href="#" className="mb-5 flex items-center gap-2"><BsFillBagFill /> <span className="hover:underline">Vendas Efetuadas</span> </a>
                 </div>
