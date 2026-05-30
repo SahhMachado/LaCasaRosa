@@ -4,8 +4,9 @@ import { Major_Mono_Display } from "next/font/google";
 import CirclesTop from "@/app/components/circles-top";
 import CirclesBottom from "@/app/components/circles-bottom";
 import BackgroundStripes from "@/app/components/background-stripes";
-import Image from "next/image";
 import { FaArrowLeft } from "react-icons/fa6";
+import Image from "next/image";
+import Link from "next/link";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -20,7 +21,7 @@ const majorMono = Major_Mono_Display({
 
 export default function RecuperarSenha() {
     return(
-        <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black">
+        <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
             <CirclesTop />
 
             <div className={poppins.className + " ml-25 mt-80"}>
@@ -30,33 +31,33 @@ export default function RecuperarSenha() {
             </div>
             
             <div className={poppins.className + " relative z-10"}>
-                <div className="bg-[#F2EBD5] w-[30%] h-auto p-10 rounded-2xl absolute right-40 -top-70">
+                <div className="bg-[#F2EBD5] w-[30%] h-auto p-10 rounded-2xl absolute right-40 -top-80">
                     <div className="flex flex-col items-center mb-8">
                         <Image src="/images/logo.png" alt="Logo" width={83} height={70} />
                     </div>
 
                     <form className="mb-8">
                         <label>E-mail:</label>
-                        <input placeholder="Exemplo: vendas@gmail.com" id="email" type="text" 
+                        <input placeholder="Exemplo: vendas@gmail.com" id="email" type="email" 
                         className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-sm placeholder:opacity-85" />
 
                         <label>Nova Senha:</label>
-                        <input placeholder="Informe sua nova senha aqui..." id="senha" type="text" 
+                        <input placeholder="Informe sua nova senha aqui..." id="senha" type="password" 
                         className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-sm placeholder:opacity-85" />     
 
                         <label>Confirmar Senha:</label>
-                        <input placeholder="Confirme sua nova senha aqui..." id="senha" type="text" 
-                        className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                        <input placeholder="Confirme sua nova senha aqui..." id="confirmasenha" type="password" 
+                        className="mb-12 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-sm placeholder:opacity-85" />      
 
-                        <input id="entrar" value="Salvar" type="submit" className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md" />         
+                        <input id="salvar" value="Salvar" type="submit" className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md" />         
                     </form>
 
-                    <div className="flex flex-col items-center text-sm mb-2">
-                        <a href="#"><FaArrowLeft size={40} className="text-[#F2594B]" /></a>
-                    </div>      
+                    <Link href="/login" className="flex flex-col items-center text-sm mb-2">
+                        <FaArrowLeft size={40} className="text-[#F2594B]" />
+                    </Link>      
                 </div>
             </div>
             <BackgroundStripes />

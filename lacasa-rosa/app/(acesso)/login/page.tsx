@@ -19,7 +19,7 @@ const majorMono = Major_Mono_Display({
 
 export default function Login() {
     return(
-        <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black">
+        <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
             <CirclesTop />
 
             <div className={poppins.className + " ml-25 mt-80"}>
@@ -36,21 +36,21 @@ export default function Login() {
 
                     <form className="mb-8">
                         <label>E-mail:</label>
-                        <input placeholder="Exemplo: vendas@gmail.com" id="email" type="text" 
+                        <input placeholder="Exemplo: vendas@gmail.com" id="email" type="email" 
                         className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-sm placeholder:opacity-85" />
 
                         <label>Senha:</label>
-                        <input placeholder="Informe sua senha aqui..." id="senha" type="text" 
-                        className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                        <input placeholder="Informe sua senha aqui..." id="senha" type="password" 
+                        className="mb-12 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-sm placeholder:opacity-85" />         
 
                         <input id="entrar" value="Entrar" type="submit" className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md" />         
                     </form>
 
                     <div className="flex flex-col items-center text-sm mb-2">
-                        <p className="text-[#F25EA3] font-light">Não possui login? <a href="#" className="font-bold hover:underline">Clique aqui!</a></p>
-                        <a className="text-[#F25EA3] font-light hover:underline">Esqueci minha senha...</a>
+                        <p className="text-[#F25EA3] font-light">Não possui login? <a href="/cadastro" className="font-bold hover:underline">Clique aqui!</a></p>
+                        <a href="/recuperar-senha" className="text-[#F25EA3] font-light hover:underline">Esqueci minha senha...</a>
                     </div>      
                 </div>
             </div>

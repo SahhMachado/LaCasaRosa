@@ -46,5 +46,3 @@ export default function Menu({ aberto, fechar }: MenuProps) {
         </div>
     )
 }
-
-//   className="absolute bg-[#F2EBD5]/75 text-[#F2594B] rounded-r-lg text-lg font-bold h-screen w-80 top-0 left-0 flex justify-center"
