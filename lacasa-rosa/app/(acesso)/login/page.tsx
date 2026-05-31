@@ -1,3 +1,5 @@
+"use client";
+
 import { BiSolidShoppingBags } from "react-icons/bi";
 import { Poppins } from "next/font/google";
 import { Major_Mono_Display } from "next/font/google";
@@ -5,6 +7,8 @@ import CirclesTop from "@/app/components/circles-top";
 import CirclesBottom from "@/app/components/circles-bottom";
 import BackgroundStripes from "@/app/components/background-stripes";
 import Image from "next/image";
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
+import { useState } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,6 +22,8 @@ const majorMono = Major_Mono_Display({
 
 
 export default function Login() {
+    const [showPassword, setShowPassword] = useState(false);
+    
     return(
         <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
             <CirclesTop />
@@ -37,15 +43,19 @@ export default function Login() {
                     <form className="mb-8">
                         <label>E-mail:</label>
                         <input placeholder="Exemplo: vendas@gmail.com" id="email" type="email" 
-                        className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-sm placeholder:opacity-85" />
+                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                         <label>Senha:</label>
-                        <input placeholder="Informe sua senha aqui..." id="senha" type="password" 
-                        className="mb-12 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-sm placeholder:opacity-85" />         
+                        <input placeholder="Informe sua senha aqui..." id="senha" type={showPassword ? "text" : "password"}
+                        className="mb-12 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />     
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-14 bottom-56 text-[#F2594B]" >
+                            {showPassword ? <FaEyeSlash size={22} /> : <FaEye size={22} />}   
+                        </button>
 
-                        <input id="entrar" value="Entrar" type="submit" className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md" />         
+                        <input id="entrar" value="Entrar" type="submit" 
+                                className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md hover:shadow-xl" />         
                     </form>
 
                     <div className="flex flex-col items-center text-sm mb-2">

@@ -1,7 +1,7 @@
 "use client";
 
 import { BiSolidShoppingBags } from "react-icons/bi";
-import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa6";
 import { Poppins } from "next/font/google";
 import { Major_Mono_Display } from "next/font/google";
 import CirclesTop from "@/app/components/circles-top";
@@ -33,6 +33,17 @@ export default function Perfil() {
             setPreview(URL.createObjectURL(file));
         }
     };
+
+    const formatCPF = (cpf: string) => {
+        return cpf
+            .replace(/\D/g, "")
+            .replace(/(\d{3})(\d)/, "$1.$2")
+            .replace(/(\d{3})(\d)/, "$1.$2")
+            .replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+            .slice(0, 14);
+    };
+
+    const [showPassword, setShowPassword] = useState(false);
 
     return(
         <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
@@ -70,29 +81,34 @@ export default function Perfil() {
 
                     <form className="mb-8">
                         <label>Nome:</label>
-                        <input readOnly value="#" id="email" type="text" 
-                        className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-sm placeholder:opacity-85 text-black/50" />
+                        <input readOnly value="Sara Machado" id="nome" type="text" 
+                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                         <label>CPF:</label>
-                        <input readOnly value="#" id="email" type="text" 
-                        className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-sm placeholder:opacity-85 text-black/50" />
+                        <input readOnly value={formatCPF("11449542905")} id="cpf" type="text" 
+                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                         <label>E-mail:</label>
-                        <input readOnly value="#" id="email" type="email" 
-                        className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-sm placeholder:opacity-85 text-black/50" />
+                        <input readOnly value="sara@gmail.com" id="email" type="email" 
+                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                         <label>Senha:</label>
-                        <input readOnly value="#" id="senha" type="password" 
-                        className="mb-8 w-full h-auto p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-sm placeholder:opacity-85 text-black/50" />         
+                        <input readOnly value="1234" id="senha" type={showPassword ? "text" : "password"}
+                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />   
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-14 bottom-52 text-[#F2594B]" >
+                            {showPassword ? <FaEyeSlash size={22} /> : <FaEye size={22} />}   
+                        </button>
+                              
 
-                        <input id="salvar" value="Salvar" type="submit" className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md" />         
+                        <input id="salvar" value="Salvar" type="submit" 
+                                className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md hover:shadow-xl" />         
                     </form> 
 
-                    <div className="flex flex-col items-center text-sm mb-2">
+                    <div className="flex flex-col items-center text-sm mb-2 hover:scale-110">
                         <a href="../inicio"><FaArrowLeft size={40} className="text-[#F2594B]" /></a>
                     </div>
                 </div>

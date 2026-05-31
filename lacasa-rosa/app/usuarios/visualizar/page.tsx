@@ -6,7 +6,7 @@ import { Major_Mono_Display } from "next/font/google";
 import CirclesTop from "@/app/components/circles-top";
 import CirclesBottom from "@/app/components/circles-bottom";
 import BackgroundStripes from "@/app/components/background-stripes";
-import { FaUser } from "react-icons/fa6";
+import { FaEye, FaEyeSlash, FaUser } from "react-icons/fa6";
 import { BsPencilFill } from "react-icons/bs";
 import Image from "next/image";
 import { useState } from "react";
@@ -35,7 +35,7 @@ export default function Visualizar() {
         }
     };
 
-    const [cpf, setCpf] = useState("");
+    // const [cpf, setCpf] = useState("");
     
     const formatCPF = (cpf: string) => {
         return cpf
@@ -45,6 +45,8 @@ export default function Visualizar() {
             .replace(/(\d{3})(\d{1,2})$/, "$1-$2")
             .slice(0, 14);
     };
+
+    const [showPassword, setShowPassword] = useState(false);
 
     return(
         <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
@@ -97,9 +99,12 @@ export default function Visualizar() {
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                         <label>Senha:</label>
-                        <input readOnly value="1234" id="senha" type="password" 
+                        <input readOnly value="1234" id="senha" type={showPassword ? "text" : "password"}
                         className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />  
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" /> 
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-12 bottom-70 text-[#F2594B]" >
+                            {showPassword ? <FaEyeSlash size={22} /> : <FaEye size={22} />}   
+                        </button> 
 
                         <label>Ativo?</label><br />
                         <select disabled name="status" id="status" className="w-full mb-5 outline-none
@@ -126,10 +131,9 @@ export default function Visualizar() {
                         </div>                       
                     </form> 
 
-                    <div className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md 
-                                    hover:shadow-xl flex justify-center">
-                        
-                        <Link href="/usuarios">
+                    <div className="flex justify-center text-center">
+                        <Link href="/usuarios" className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md 
+                                    hover:shadow-xl">
                                 Voltar
                         </Link>         
                     </div>

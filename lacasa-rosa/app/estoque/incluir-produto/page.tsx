@@ -126,9 +126,9 @@ export default function Editar() {
                                 className="bg-[#F2594B] w-full h-auto p-2 font-bold text-[#F2EBD5] text-xl rounded-md hover:shadow-xl" />         
                     </form> 
 
-                    <Link href="/estoque" className="flex flex-col items-center text-sm mb-1 hover:scale-110">
-                        <FaArrowLeft size={40} className="text-[#F2594B]" />
-                    </Link>    
+                    <Link href="/estoque" className="pointer-events-none flex flex-col items-center text-sm mb-1 hover:scale-110">
+                        <FaArrowLeft size={40} className="text-[#F2594B] pointer-events-auto" />
+                    </Link>  
                 </div>
             </div>
             <BackgroundStripes />

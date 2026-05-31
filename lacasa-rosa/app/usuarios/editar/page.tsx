@@ -6,7 +6,7 @@ import { Major_Mono_Display } from "next/font/google";
 import CirclesTop from "@/app/components/circles-top";
 import CirclesBottom from "@/app/components/circles-bottom";
 import BackgroundStripes from "@/app/components/background-stripes";
-import { FaArrowLeft, FaUser } from "react-icons/fa6";
+import { FaArrowLeft, FaEye, FaEyeSlash, FaUser } from "react-icons/fa6";
 import { BsPencilFill } from "react-icons/bs";
 import Image from "next/image";
 import { useState } from "react";
@@ -46,6 +46,8 @@ export default function Editar() {
             .slice(0, 14);
     };
 
+    const [showPassword, setShowPassword] = useState(false);
+
     return(
         <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
             <CirclesTop />
@@ -82,24 +84,27 @@ export default function Editar() {
 
                     <form className="mb-8">
                         <label>Nome:</label>
-                        <input defaultValue="Sara Machado" placeholder="Informe seu nome aqui..." id="nome" type="text" 
+                        <input defaultValue="Sara Machado" placeholder="Informe o nome aqui..." id="nome" type="text" 
                         className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                         <label>CPF:</label>
-                        <input defaultValue={formatCPF("11449542905")} onChange={(e) => setCpf(formatCPF(e.target.value))} placeholder="Informe seu CPF aqui..." id="cpf" type="text"
+                        <input value={cpf} onChange={(e) => setCpf(formatCPF(e.target.value))} placeholder="Informe o CPF aqui, sem pontos e traço..." id="cpf" type="text"
                         className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                         <label>E-mail:</label>
-                        <input defaultValue="sara@gmail.com" placeholder="Informe seu e-mail aqui..." id="email" type="email" 
+                        <input defaultValue="sara@gmail.com" placeholder="Informe o e-mail aqui..." id="email" type="email" 
                         className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                         <label>Senha:</label>
-                        <input defaultValue="1234" placeholder="Informe sua senha aqui..." id="senha" type="password" 
+                        <input defaultValue="1234" placeholder="Informe a senha aqui..." id="senha" type={showPassword ? "text" : "password"}
                         className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />  
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-12 bottom-83 text-[#F2594B]" >
+                            {showPassword ? <FaEyeSlash size={22} /> : <FaEye size={22} />}   
+                        </button>
 
                         <label>Ativo?</label><br />
                         <select name="status" id="status" className="w-full mb-3 outline-none
@@ -129,9 +134,9 @@ export default function Editar() {
                                 className="bg-[#F2594B] w-full h-auto p-2 font-bold text-[#F2EBD5] text-xl rounded-md hover:shadow-xl" />         
                     </form> 
 
-                    <Link href="/usuarios" className="flex flex-col items-center text-sm mb-1">
-                        <FaArrowLeft size={40} className="text-[#F2594B]" />
-                    </Link>    
+                   <Link href="/usuarios" className="pointer-events-none flex flex-col items-center text-sm mb-1 hover:scale-110">
+                        <FaArrowLeft size={40} className="text-[#F2594B] pointer-events-auto" />
+                    </Link>  
                 </div>
             </div>
             <BackgroundStripes />

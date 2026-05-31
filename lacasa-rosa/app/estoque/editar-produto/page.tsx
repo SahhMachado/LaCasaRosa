@@ -91,7 +91,7 @@ export default function Editar() {
                             decimalScale={2}
                             fixedDecimalScale
                             className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                            placeholder:font-light  placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold"
+                            placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold"
                             />
 
                         <label>Quantidade:</label>
@@ -126,8 +126,8 @@ export default function Editar() {
                                 className="bg-[#F2594B] w-full h-auto p-2 font-bold text-[#F2EBD5] text-xl rounded-md hover:shadow-xl" />         
                     </form> 
 
-                    <Link href="/estoque" className="flex flex-col items-center text-sm mb-1 hover:scale-110">
-                        <FaArrowLeft size={40} className="text-[#F2594B]" />
+                    <Link href="/estoque" className="pointer-events-none flex flex-col items-center text-sm mb-1 hover:scale-110">
+                        <FaArrowLeft size={40} className="text-[#F2594B] pointer-events-auto" />
                     </Link>    
                 </div>
             </div>

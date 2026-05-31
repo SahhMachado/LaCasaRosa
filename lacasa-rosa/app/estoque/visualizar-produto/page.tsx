@@ -122,14 +122,13 @@ export default function Editar() {
                         <div className="pointer-events-none absolute right-12 bottom-51.5 flex items-center">
                             <TiArrowSortedDown size={25} className="text-[#F2594B]" />
                         </div> 
-                    </form> 
+                    </form>
 
-                    <div className="bg-[#F2594B] w-full h-auto p-2 font-bold text-[#F2EBD5] text-xl 
-                        rounded-md flex justify-center hover:shadow-xl">
-
-                        <Link href="/estoque">
-                            Voltar
-                        </Link>    
+                    <div className="flex justify-center text-center">
+                        <Link href="/estoque" className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md 
+                                    hover:shadow-xl">
+                                Voltar
+                        </Link>         
                     </div>
 
                 </div>
