@@ -23,7 +23,7 @@ const majorMono = Major_Mono_Display({
 });
 
 export default function VendasEfetuadas() {
-    const [aberto, setAberto] = useState(false);
+    const [aberto, setAberto] = useState(false); //controla o modal de cancelamento 
 
     return(
         <div className={poppins.className + " relative w-screen h-screen bg-[#F2EBD5] text-black overflow-hidden"}>

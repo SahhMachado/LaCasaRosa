@@ -10,6 +10,14 @@ import { BsFillHandbagFill } from "react-icons/bs";
 import Menu from "../components/menu";
 import Link from "next/link";
 
+type ItemCarrinho = {
+    id: number;
+    nome: string;
+    preco: number;
+    imagem: string;
+    quantidade: number;
+};
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "700"],
@@ -21,8 +29,40 @@ const majorMono = Major_Mono_Display({
 });
 
 export default function Inicio() {
-    const [aberto, setAberto] = useState(false);
-    
+    const [aberto, setAberto] = useState(false); //controle para o menu lateral
+
+    const [mensagem, setMensagem] = useState(""); //controle para a mensagem exibida ao adicionar o item no carrinho
+
+    //adicionar produto ao carrinho
+    const adicionar = (produto: ItemCarrinho) => {
+        const carrinhoAtual = JSON.parse(
+            localStorage.getItem("carrinho") || "[]"
+        );
+
+        const existente = carrinhoAtual.find(
+            (item: ItemCarrinho) => item.id === produto.id
+        );
+
+        if (existente) {
+            existente.quantidade += 1;
+        } else {
+            carrinhoAtual.push({
+            ...produto,
+            quantidade: 1,
+            });
+        }
+
+        localStorage.setItem(
+            "carrinho",
+            JSON.stringify(carrinhoAtual)
+        );
+
+        setMensagem(`${produto.nome} adicionado ao carrinho!`);
+        setTimeout(() => {
+            setMensagem("");
+        }, 2000);
+    };
+        
     return(
         <div className={poppins.className + " w-screen h-screen bg-[#F2EBD5] flex flex-col overflow-hidden"}>
             {/* Menu principal */}
@@ -53,7 +93,18 @@ export default function Inicio() {
                         <img src="/images/blusinha-croche.jpeg" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                         <p>Blusinha Crochê Charlotte</p>
                         <p>R$ 29,90</p>
-                        <button className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">Adicionar</button>
+                        <button onClick={() =>
+                                adicionar({
+                                    id: 1,
+                                    nome: "Blusinha Crochê Charlotte",
+                                    preco: 29.9,
+                                    imagem: "/images/blusinha-croche.jpeg",
+                                    quantidade: 1,
+                                })
+                            }
+                            className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">
+                            Adicionar
+                        </button>
                     </div>
                     <div className="flex flex-col text-center mt-5">
                         <img src="#" className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
@@ -102,6 +153,13 @@ export default function Inicio() {
                     </div>
                 </div>
             </div>
+
+            {mensagem && (
+                <div className="fixed top-5 right-5 z-50 bg-[#F2EBD5] text-[#F25EA3] px-6 py-3
+                                rounded-lg shadow-lg font-bold">
+                    <span>{mensagem}</span>
+                </div>
+            )}
 
             {/* Botão para finalizar a venda */}
             <Link href="/finalizar-venda">

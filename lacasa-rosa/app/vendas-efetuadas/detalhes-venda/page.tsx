@@ -32,31 +32,36 @@ export default function DetalhesVenda() {
 
                 {/* Área de produtos da venda */}
                 <div className="h-141 ml-45 mr-45 overflow-y-auto overflow-x-hidden text-[#F2EBD5] font-bold">
+                    <div className="text-black font-normal absolute right-46 top-66">
+                        <span className="min-w-25 max-w-45 mr-42 2xl:mr-56">Valor Unitário</span>
+                        <span className="min-w-25 max-w-45 mr-28 2xl:mr-84">Quantidade</span>
+                        <span className="min-w-25 max-w-45">Total (por item)</span>
+                    </div>
                     <div className="bg-[#F25EA3] h-20 rounded-lg border-2 border-[#F2EBD5] mb-10 
                                     flex text-center items-center">
                         <img src="/images/blusinha-rosy.jpeg" className="w-15 h-15 rounded-full border-4 border-[#F2EBD5] ml-5 mr-10" />
-                        <p className="mr-30 2xl:mr-70 min-w-45">Blusinha Rosy</p>
-                        <p  className="mr-23 2xl:mr-38 min-w-45">R$ 24,90</p>
-                        <p  className="mr-12 2xl:mr-62 min-w-45">1 un.</p>
-                        <p  className="mr-23 2xl:mr-38 min-w-45">R$ 24,90</p>
+                        <p className="mr-30 2xl:mr-70 min-w-45 max-w-45">Blusinha Rosy</p>
+                        <p  className="mr-23 2xl:mr-38 min-w-45 max-w-45">R$ 24,90</p>
+                        <p  className="mr-12 2xl:mr-62 min-w-45 max-w-45">1 un.</p>
+                        <p  className="mr-23 2xl:mr-38 min-w-45 max-w-45">R$ 24,90</p>
                     </div>
 
                     <div className="bg-[#F25EA3] h-20 rounded-lg border-2 border-[#F2EBD5] mb-10
                                     flex text-center items-center">
                         <img src="#" className="w-15 h-15 rounded-full border-4 border-[#F2EBD5] ml-5 mr-10" />
-                        <p className="mr-30 2xl:mr-70 min-w-45">Produto XXX</p>
-                        <p  className="mr-23 2xl:mr-38 min-w-45">R$ 30,00</p>
-                        <p  className="mr-12 2xl:mr-62 min-w-45">2 un.</p>
-                        <p  className="mr-23 2xl:mr-38 min-w-45">R$ 60,00</p>
+                        <p className="mr-30 2xl:mr-70 min-w-45 max-w-45">Produto XXX</p>
+                        <p  className="mr-23 2xl:mr-38 min-w-45 max-w-45">R$ 30,00</p>
+                        <p  className="mr-12 2xl:mr-62 min-w-45 max-w-45">2 un.</p>
+                        <p  className="mr-23 2xl:mr-38 min-w-45 max-w-45">R$ 60,00</p>
                     </div>
 
                      <div className="bg-[#F25EA3] h-20 rounded-lg border-2 border-[#F2EBD5] mb-10
                                     flex text-center items-center">
                         <img src="#" className="w-15 h-15 rounded-full border-4 border-[#F2EBD5] ml-5 mr-10" />
-                        <p className="mr-30 2xl:mr-70 min-w-45">Produto XXX</p>
-                        <p  className="mr-23 2xl:mr-38 min-w-45">R$ 00,00</p>
-                        <p  className="mr-12 2xl:mr-62 min-w-45">1 un.</p>
-                        <p  className="mr-23 2xl:mr-38 min-w-45">R$ 00,00</p>
+                        <p className="mr-30 2xl:mr-70 min-w-45 max-w-45">Produto XXX</p>
+                        <p  className="mr-23 2xl:mr-38 min-w-45 max-w-45">R$ 00,00</p>
+                        <p  className="mr-12 2xl:mr-62 min-w-45 max-w-45">1 un.</p>
+                        <p  className="mr-23 2xl:mr-38 min-w-45 max-w-45">R$ 00,00</p>
                     </div>                  
                 </div>
 
