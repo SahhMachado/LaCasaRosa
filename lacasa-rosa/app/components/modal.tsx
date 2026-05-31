@@ -1,9 +1,20 @@
+import { useRouter } from "next/navigation";
+
 type ModalProps = {
     aberto: boolean;
     fechar: () => void;
 }
 
 export default function Modal({ aberto, fechar }: ModalProps) {
+    const router = useRouter();
+
+    const confirmar = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // cancelar a venda no banco
+
+        router.push("/venda-cancelada");
+    };
     return(
         <div className={`
                         fixed inset-0 z-50 w-full overflow-hidden flex justify-center items-center
@@ -28,10 +39,14 @@ export default function Modal({ aberto, fechar }: ModalProps) {
                 <h1>Deseja cancelar esta venda?</h1>
             </div>
             <div className="flex gap-x-15 mt-35">
-                <button className="bg-[#F2C84B] shadow-md p-2 w-20 rounded-md hover:scale-110">
-                    Sim
-                </button>
-                <button onClick={fechar} className="bg-[#F2594B] text-[#F2C84B] shadow-md p-2 w-20 rounded-md hover:scale-110">
+
+                <form onSubmit={confirmar}>
+                    <button type="submit" className="bg-[#F2C84B] shadow-md p-2 w-20 rounded-md hover:scale-110">
+                        Sim
+                    </button>
+                </form>
+
+                <button type="button" onClick={fechar} className="bg-[#F2594B] text-[#F2C84B] shadow-md p-2 w-20 rounded-md hover:scale-110">
                     Não
                 </button>
             </div>
