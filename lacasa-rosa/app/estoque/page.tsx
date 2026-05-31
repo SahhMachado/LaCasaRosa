@@ -41,12 +41,12 @@ export default function Estoque() {
                         <p  className="mr-25 2xl:mr-60 min-w-45">R$ 24,90</p>
                         <p  className="mr-10 2xl:mr-48 min-w-25">1 un.</p>
                         <span className="mr-5 min-w-30">Disponível</span>
-                        <button className="mr-5 hover:scale-110">
+                        <Link href="/estoque/visualizar-produto" className="mr-5 hover:scale-110">
                             <FaEye size={30}/>
-                        </button>
-                        <button className="mr-5 hover:scale-110">
+                        </Link>
+                        <Link href="/estoque/editar-produto" className="mr-5 hover:scale-110">
                             <BiSolidEdit size={30}/>
-                        </button>
+                        </Link>
                     </div>
 
                     <div className="bg-[#F25EA3] h-20 rounded-lg border-2 border-[#F2EBD5] mb-10 flex text-center items-center">
@@ -55,12 +55,12 @@ export default function Estoque() {
                         <p  className="mr-25 2xl:mr-60 min-w-45">R$ 00,00</p>
                         <p  className="mr-10 2xl:mr-48 min-w-25">1 un.</p>
                         <span className="mr-5 min-w-30">Vendido</span>
-                        <button className="mr-5 hover:scale-110">
+                        <Link href="/estoque/visualizar-produto" className="mr-5 hover:scale-110">
                             <FaEye size={30}/>
-                        </button>
-                        <button className="mr-5 hover:scale-110">
+                        </Link>
+                        <Link href="/estoque/editar-produto" className="mr-5 hover:scale-110">
                             <BiSolidEdit size={30}/>
-                        </button>
+                        </Link>
                     </div>
                 </div>
 
@@ -70,10 +70,10 @@ export default function Estoque() {
                                                     justify-center shadow-md hover:scale-110">
                         <FaArrowLeft size={30} className="text-[#F2594B]" />
                     </Link>
-                    <button id="incluir" className="bg-[#F2C84B] w-50 p-2 font-bold text-[#F2594B] text-lg rounded-md
-                                                    shadow-md hover:scale-110">
+                    <Link href="/estoque/incluir-produto" id="incluir" className="bg-[#F2C84B] w-50 p-2 font-bold text-[#F2594B] text-lg rounded-md
+                                                    shadow-md hover:scale-110 flex items-center justify-center">
                         Incluir Produto
-                    </button>
+                    </Link>
                 </div>
 
             </div>

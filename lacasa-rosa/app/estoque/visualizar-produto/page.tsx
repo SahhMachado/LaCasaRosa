@@ -6,12 +6,14 @@ import { Major_Mono_Display } from "next/font/google";
 import CirclesTop from "@/app/components/circles-top";
 import CirclesBottom from "@/app/components/circles-bottom";
 import BackgroundStripes from "@/app/components/background-stripes";
-import { FaUser } from "react-icons/fa6";
+import { FaArrowLeft, FaUser } from "react-icons/fa6";
 import { BsPencilFill } from "react-icons/bs";
+import { MdMoveToInbox } from "react-icons/md";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { TiArrowSortedDown } from "react-icons/ti";
+import { NumericFormat } from "react-number-format";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,7 +26,7 @@ const majorMono = Major_Mono_Display({
 });
 
 
-export default function Visualizar() {
+export default function Editar() {
     // Estado para controlar o preview da imagem carregada
     const [preview, setPreview] = useState<string | null>(null);
 
@@ -35,16 +37,7 @@ export default function Visualizar() {
         }
     };
 
-    const [cpf, setCpf] = useState("");
-    
-    const formatCPF = (cpf: string) => {
-        return cpf
-            .replace(/\D/g, "")
-            .replace(/(\d{3})(\d)/, "$1.$2")
-            .replace(/(\d{3})(\d)/, "$1.$2")
-            .replace(/(\d{3})(\d{1,2})$/, "$1-$2")
-            .slice(0, 14);
-    };
+    const [preco, setPreco] = useState("");
 
     return(
         <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
@@ -53,25 +46,25 @@ export default function Visualizar() {
             <div className={poppins.className + " ml-25 mt-80"}>
                 <BiSolidShoppingBags size={80}/>
                 <h1 className={majorMono.className + " text-4xl mt-2 mb-5"}>Bem-Vindo(a)!</h1>
-                <h2 className="text-2xl">Visualize os dados dos usuários <br /> sempre que necessário</h2>
+                <h2 className="text-2xl">Aqui você pode visualizar os dados do  <br /> produto</h2>
             </div>
             
             <div className={poppins.className + " relative z-10"}>
                 {/* Card */}
-                <div className="bg-[#F2EBD5] w-[30%] h-auto p-10 rounded-2xl absolute right-40 -top-94">
+                <div className="bg-[#F2EBD5] w-[30%] h-auto p-10 rounded-2xl absolute right-40 -top-100">
 
-                    {/* Imagem de perfil */}
+                    {/* Imagem do produto */}
                     <div className="flex flex-col items-center mb-1">
                         <label className="relative">
                             <input disabled type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
 
-                            {/* Avatar */}
+                            {/* imagem */}
                             <div className="w-25 h-25 rounded-full bg-[#F2594B] text-[#F2EBD5] 
                                             flex flex-col items-center justify-center shadow-lg">
                                 {preview ? (
                                     <img src={preview} alt="Avatar" className="w-full h-full object-cover rounded-full border-4 border-[#F2594B]" />
                                     ) : (
-                                    <FaUser size={70} />
+                                    <MdMoveToInbox size={65} />
                                 )}
                             </div>
 
@@ -80,59 +73,65 @@ export default function Visualizar() {
                         </label>
                     </div>
 
-                    <form className="mb-8">
+                    <form className="mb-3">
                         <label>Nome:</label>
-                        <input readOnly value="Sara Machado" id="nome" type="text" 
+                        <input readOnly defaultValue="Blusinha Rosy" placeholder="Informe o nome do produto aqui..." id="nome" type="text" 
                         className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
-                        <label>CPF:</label>
-                        <input readOnly value={formatCPF("11449542905")} id="cpf" type="text" 
+                        <label>Valor:</label>
+                          <NumericFormat
+                            readOnly
+                            placeholder="0,00" id="valor"
+                            value={10.5}
+                            onValueChange={(values) => {
+                                setPreco(values.value); // ex: "1234.56"
+                            }}
+                            thousandSeparator="."
+                            decimalSeparator=","
+                            decimalScale={2}
+                            fixedDecimalScale
+                            className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                            placeholder:font-light  placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold"
+                            />
+
+                        <label>Quantidade:</label>
+                        <input readOnly defaultValue={1} placeholder="Informe a quantidade em estoque aqui..." id="quantidade" type="number" 
+                        className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
+                        
+                        <label>Tamanho:</label>
+                        <input readOnly defaultValue="M" placeholder="Informe o tamanho aqui..." id="tamanho" type="text" 
                         className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
-                        <label>E-mail:</label>
-                        <input readOnly value="sara@gmail.com" id="email" type="email" 
+                        <label>Categoria:</label>
+                        <input readOnly defaultValue="Blusas" placeholder="Exemplo: Blusas, Calças, Sapatos" id="categoria" type="text" 
                         className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
-                        <label>Senha:</label>
-                        <input readOnly value="1234" id="senha" type="password" 
-                        className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />  
-
-                        <label>Ativo?</label><br />
-                        <select disabled name="status" id="status" className="w-full mb-5 outline-none
+                        <label>Situação:</label><br />
+                        <select disabled name="situacao" id="situacao" className="w-full mb-8 outline-none
                                     appearance-none bg-[#F2C84B] text-[#F2594B] font-bold rounded-md h-auto px-3 p-1 shadow-md" 
-                                    defaultValue={1}>
+                                    defaultValue="disponivel">
 
-                            <option value="1">Sim</option>
-                            <option value="0">Não</option>
+                            <option value="vendido" className="bg-[#F2EBD5]">Vendido</option>
+                            <option value="disponivel" className="bg-[#F2EBD5]">Disponível</option>
+                            <option value="reservado" className="bg-[#F2EBD5]">Reservado</option>
                         </select>    
-                        <div className="pointer-events-none absolute right-12 bottom-51 flex items-center">
+                        <div className="pointer-events-none absolute right-12 bottom-51.5 flex items-center">
                             <TiArrowSortedDown size={25} className="text-[#F2594B]" />
                         </div> 
-
-                        <label>Tipo:</label><br />
-                        <select disabled name="tipouser" id="tipouser" className="w-full outline-none
-                                    appearance-none bg-[#F2C84B] text-[#F2594B] font-bold rounded-md h-auto px-3 p-1 shadow-md" 
-                                    defaultValue="admin">
-
-                            <option value="admin">Admin</option>
-                            <option value="normal">Normal</option>
-                        </select>    
-                        <div className="pointer-events-none absolute right-12 bottom-31.5 flex items-center">
-                            <TiArrowSortedDown size={25} className="text-[#F2594B]" />
-                        </div>                       
                     </form> 
 
-                    <div className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md 
-                                    hover:shadow-xl flex justify-center">
-                        
-                        <Link href="/usuarios">
-                                Voltar
-                        </Link>         
+                    <div className="bg-[#F2594B] w-full h-auto p-2 font-bold text-[#F2EBD5] text-xl 
+                        rounded-md flex justify-center hover:shadow-xl">
+
+                        <Link href="/estoque">
+                            Voltar
+                        </Link>    
                     </div>
+
                 </div>
             </div>
             <BackgroundStripes />
