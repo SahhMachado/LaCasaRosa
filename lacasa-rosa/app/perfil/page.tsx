@@ -21,7 +21,7 @@ const majorMono = Major_Mono_Display({
 });
 
 export default async function Perfil() {
-    const usuario = await userGetId()
+    const usuario = await userGetId(1)  
     console.log(usuario)
 
     return(

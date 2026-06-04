@@ -5,25 +5,30 @@ import { db } from "@/app/lib/db";
 export interface UserProps {
     usuario_id: number;
     usuario_nome: string;
-    usuario_email: number;
+    usuario_email: string;
     usuario_senha: string;
     usuario_cpf: string;
-    usuario_imagem: string;
-    usuario_role: string;
-    usuario_ativo: string;
+    usuario_imagem: string | null;
+    role: string;
+    usuario_ativo: boolean;
 }
 
+//buscar todos os usuários
 export async function userGetAll() {
     const result = await db.query(
     "SELECT * FROM usuarios"
     )
 
-    return result.rows
+    return result.rows.map((user) => ({
+        ...user,
+        usuario_imagem: user.usuario_imagem
+            ? Buffer.from(user.usuario_imagem).toString("base64")
+            : null,
+    }));
 }
 
-export async function userGetId<UserProps>() {
-    const usuario_id = 1
-
+//buscar informações por ID de usuário
+export async function userGetId<UserProps>(usuario_id: number) {
     if(!usuario_id){
         return{
             sucess: false,
@@ -46,6 +51,7 @@ export async function userGetId<UserProps>() {
     return user
 }
 
+//incluir usuário
 export async function userPost(formData: FormData) {
     const usuario_nome = formData.get("nome") 
     const usuario_cpf = formData.get("cpf") 
@@ -67,14 +73,37 @@ export async function userPost(formData: FormData) {
     }
 
     await db.query(
-        `INSERT INTO usuarios (usuario_nome, usuario_cpf, usuario_email, usuario_senha, role) VALUES ($1, $2, $3, $4, $5)`, [usuario_nome,  usuario_cpf, usuario_email, usuario_senha, usuario_role]
-    )    
+        `
+        INSERT INTO usuarios (
+            usuario_nome,
+            usuario_cpf,
+            usuario_email,
+            usuario_senha,
+            role
+        )
+        VALUES (
+            $1,
+            $2,
+            $3,
+            $4,
+            $5
+        )
+        `,
+        [
+            usuario_nome,   // $1
+            usuario_cpf,    // $2
+            usuario_email,  // $3
+            usuario_senha,  // $4
+            usuario_role    // $5
+        ]
+    );   
 
     return{
         sucess: true
     }
 }
 
+//alterar imagem de perfil
 export async function userPutImage(formData: FormData) {
     const usuario_id = 1
     const usuario_imagem = formData.get("imagem") as File
@@ -91,10 +120,52 @@ export async function userPutImage(formData: FormData) {
     );
 
     return {
-        success: true,
+        sucess: true,
+        message: "Imagem salva!"
     };
 }
 
+//alterar usuário
 export async function userPut(formData: FormData) {
+    const usuario_id = formData.get("id")
+    const usuario_imagem = formData.get("imagem") as File
+    const usuario_nome = formData.get("nome") 
+    const usuario_cpf = formData.get("cpf") 
+    const usuario_email = formData.get("email")
+    const usuario_senha = formData.get("senha")
+    const usuario_role = formData.get("tipouser")
+    const usuario_ativo = formData.get("status")
+
+    const bytes = await usuario_imagem.arrayBuffer();
+    const buffer = Buffer.from(bytes);
     
+    await db.query(
+        `
+        UPDATE usuarios
+        SET
+            usuario_imagem = $1,
+            usuario_nome   = $3,
+            usuario_cpf    = $4,
+            usuario_email  = $5,
+            usuario_senha  = $6,
+            role           = $7,
+            usuario_ativo  = $8
+        WHERE usuario_id = $2
+        `,
+        [
+            buffer,          // $1
+            usuario_id,      // $2
+            usuario_nome,    // $3
+            usuario_cpf,     // $4
+            usuario_email,   // $5
+            usuario_senha,   // $6
+            usuario_role,    // $7
+            usuario_ativo    // $8
+        ]
+    );
+
+    return {
+        sucess: true,
+        message: "Alterações salvas!"
+    };
 }
