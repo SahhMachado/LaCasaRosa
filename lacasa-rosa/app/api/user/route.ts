@@ -42,12 +42,37 @@ export async function userGetId<UserProps>() {
     : null;
 
     user.usuario_imagem = imagemBase64
-    
+
     return user
 }
 
 export async function userPost(formData: FormData) {
-    
+    const usuario_nome = formData.get("nome") 
+    const usuario_cpf = formData.get("cpf") 
+    const usuario_email = formData.get("email")
+    const usuario_senha = formData.get("senha")
+    const usuario_role = "normal"
+
+    const result = await db.query(
+        "SELECT usuario_cpf, usuario_email FROM usuarios WHERE usuario_cpf = $1 OR usuario_email = $2", [usuario_cpf, usuario_email]
+    )
+
+    if(result.rows[0]){
+        const user = result.rows[0]
+
+        return{
+            sucess: false,  
+            message: user.usuario_cpf == usuario_cpf ? "O CPF já existe!" : "O e-mail já existe!"
+        }
+    }
+
+    await db.query(
+        `INSERT INTO usuarios (usuario_nome, usuario_cpf, usuario_email, usuario_senha, role) VALUES ($1, $2, $3, $4, $5)`, [usuario_nome,  usuario_cpf, usuario_email, usuario_senha, usuario_role]
+    )    
+
+    return{
+        sucess: true
+    }
 }
 
 export async function userPutImage(formData: FormData) {
@@ -71,9 +96,5 @@ export async function userPutImage(formData: FormData) {
 }
 
 export async function userPut(formData: FormData) {
-    
-}
-
-export async function userDelete(formData: FormData) {
     
 }
