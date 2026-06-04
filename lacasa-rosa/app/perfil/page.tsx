@@ -1,16 +1,14 @@
-"use client";
+"use server";
 
 import { BiSolidShoppingBags } from "react-icons/bi";
-import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa6";
+import { FaArrowLeft } from "react-icons/fa6";
 import { Poppins } from "next/font/google";
 import { Major_Mono_Display } from "next/font/google";
 import CirclesTop from "@/app/components/circles-top";
 import CirclesBottom from "@/app/components/circles-bottom";
 import BackgroundStripes from "@/app/components/background-stripes";
-import { FaUser } from "react-icons/fa6";
-import { BsPencilFill } from "react-icons/bs";
-import Image from "next/image";
-import { useState } from "react";
+import FormUser from "./components/formUser";
+import { userGetId } from "../api/user/route";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,28 +20,9 @@ const majorMono = Major_Mono_Display({
     weight: "400",
 });
 
-
-export default function Perfil() {
-    // Estado para controlar o preview da imagem carregada
-    const [preview, setPreview] = useState<string | null>(null);
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setPreview(URL.createObjectURL(file));
-        }
-    };
-
-    const formatCPF = (cpf: string) => {
-        return cpf
-            .replace(/\D/g, "")
-            .replace(/(\d{3})(\d)/, "$1.$2")
-            .replace(/(\d{3})(\d)/, "$1.$2")
-            .replace(/(\d{3})(\d{1,2})$/, "$1-$2")
-            .slice(0, 14);
-    };
-
-    const [showPassword, setShowPassword] = useState(false);
+export default async function Perfil() {
+    const usuario = await userGetId()
+    console.log(usuario)
 
     return(
         <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
@@ -56,57 +35,11 @@ export default function Perfil() {
             </div>
             
             <div className={poppins.className + " relative z-10"}>
+                            
                 {/* Card */}
                 <div className="bg-[#F2EBD5] w-[30%] h-auto p-10 rounded-2xl absolute right-40 -top-90">
-
-                    {/* Imagem de perfil */}
-                    <div className="flex flex-col items-center mb-3">
-                        <label className="relative">
-                            <input type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
-
-                            {/* Avatar */}
-                            <div className="w-30 h-30 rounded-full bg-[#F2594B] text-[#F2EBD5] 
-                                            flex flex-col items-center justify-center shadow-lg">
-                                {preview ? (
-                                    <img src={preview} alt="Avatar" className="w-full h-full object-cover rounded-full border-4 border-[#F2594B]" />
-                                    ) : (
-                                    <FaUser size={75} />
-                                )}
-                            </div>
-
-                            {/* ícone lápis */}
-                            <BsPencilFill size={25} className="absolute top-22 right-1" />
-                        </label>
-                    </div>
-
-                    <form className="mb-8">
-                        <label>Nome:</label>
-                        <input readOnly value="Sara Machado" id="nome" type="text" 
-                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
-
-                        <label>CPF:</label>
-                        <input readOnly value={formatCPF("11449542905")} id="cpf" type="text" 
-                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
-
-                        <label>E-mail:</label>
-                        <input readOnly value="sara@gmail.com" id="email" type="email" 
-                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
-
-                        <label>Senha:</label>
-                        <input readOnly value="1234" id="senha" type={showPassword ? "text" : "password"}
-                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />   
-                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-14 bottom-52 text-[#F2594B]" >
-                            {showPassword ? <FaEyeSlash size={22} /> : <FaEye size={22} />}   
-                        </button>
-                              
-
-                        <input id="salvar" value="Salvar" type="submit" 
-                                className="bg-[#F2594B] w-full h-auto p-3 font-bold text-[#F2EBD5] text-xl rounded-md hover:shadow-xl" />         
-                    </form> 
+                
+                    <FormUser usuario={usuario} />
 
                     <div className="flex flex-col items-center text-sm mb-2 hover:scale-110">
                         <a href="../inicio"><FaArrowLeft size={40} className="text-[#F2594B]" /></a>

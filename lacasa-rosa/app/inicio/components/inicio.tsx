@@ -75,8 +75,6 @@ export default function Inicio({ produtos }: { produtos: ProdutosProps[] }) {
         }, 2000);
     };
 
-    console.log(typeof produtos[0].produto_preco)
-
     return(
         <div className={poppins.className + " w-screen h-screen bg-[#F2EBD5] flex flex-col overflow-hidden"}>
             {/* Menu principal */}
@@ -105,7 +103,7 @@ export default function Inicio({ produtos }: { produtos: ProdutosProps[] }) {
                 <div className="flex flex-wrap justify-center items-center gap-y-5 gap-x-44">
 
                 {
-                    produtos.map((produto, index) => (
+                    produtos.map((produto) => (
                         <div key={produto.produto_id} className="flex flex-col text-center mt-5">
                             <img src={produto.imagem_url} className="w-45 h-45 mb-4 border-2 border-[#F25EA3] shadow-lg rounded-xl" />
                             <p>{produto.produto_nome}</p>
