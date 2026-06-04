@@ -9,6 +9,8 @@ import BackgroundStripes from "@/app/components/background-stripes";
 import Image from "next/image";
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 import { useState } from "react";
+import { loginAction } from "@/app/api/auth/login/route";
+import { useRouter } from "next/navigation";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,6 +25,25 @@ const majorMono = Major_Mono_Display({
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
+
+    const [mensagem, setMensagem] = useState("");
+
+    const router = useRouter();
+
+    async function handleSubmit(formData: FormData){
+        const result = await loginAction(formData)
+
+        console.log(result)
+
+        if(result.sucess == true){
+            router.replace("/inicio");
+        }else{
+            setMensagem(`${result.message}`);
+            setTimeout(() => {
+            setMensagem("");
+        }, 2000);
+        }
+    }
     
     return(
         <div className="w-screen h-screen relative flex flex-col bg-[#F2EBD5] text-black overflow-hidden">
@@ -40,16 +61,21 @@ export default function Login() {
                         <Image src="/images/logo.png" alt="Logo" width={83} height={70} />
                     </div>
 
-                    <form className="mb-8">
+                    <form action={handleSubmit} className="mb-8">
                         <label>E-mail:</label>
-                        <input placeholder="Exemplo: vendas@gmail.com" id="email" type="email" 
-                        className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                        <input placeholder="Exemplo: vendas@gmail.com" 
+                                type="email" 
+                                name="email"
+                                className="mb-8 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                         <label>Senha:</label>
-                        <input placeholder="Informe sua senha aqui..." id="senha" type={showPassword ? "text" : "password"}
-                        className="mb-12 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />     
+                        <input placeholder="Informe sua senha aqui..."
+                                type={showPassword ? "text" : "password"}
+                                name="senha"
+                                className="mb-12 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />    
+
                         <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-14 bottom-56 text-[#F2594B]" >
                             {showPassword ? <FaEyeSlash size={22} /> : <FaEye size={22} />}   
                         </button>
@@ -64,6 +90,14 @@ export default function Login() {
                     </div>      
                 </div>
             </div>
+
+            {mensagem && (
+                <div className="fixed top-5 right-5 z-50 bg-[#F2EBD5] text-[#F25EA3] px-6 py-3
+                                rounded-lg shadow-lg font-bold">
+                    <span>{mensagem}</span>
+                </div>
+            )}
+
             <BackgroundStripes />
             <CirclesBottom />
         </div>
