@@ -22,7 +22,7 @@ export async function vendasGetAll() {
 }
 
 //buscar as vendas por ID de usuário
-export async function vendasGetIdUser<ProdutoProps>(usuario_id: number) {
+export async function vendasGetIdUser<VendasProps>(usuario_id: number) {
     const result = await db.query(
         "SELECT * FROM vendas WHERE venda_usuario_id = $1", [usuario_id]
     )
@@ -32,25 +32,117 @@ export async function vendasGetIdUser<ProdutoProps>(usuario_id: number) {
 
 //buscar informações por ID de venda
 export async function vendaGetId<VendasProps>(venda_id: number) {
-    if (!venda_id) {
-        return {
-            success: false,
-            message: "Venda não encontrada!"
-        }
-    }
-
     const result = await db.query(
         "SELECT * FROM vendas WHERE venda_id = $1", [venda_id]
     )
-    
+
     return result.rows[0]
 }
 
-//cancelar venda
-export async function cancelarVenda() {
+//buscar informações de itens_venda
+export async function itensVendaGet(venda_id: number) {
     const result = await db.query(
-        "SELECT * FROM vendas ORDER BY venda_id ASC"
-    )
+        `
+        SELECT
+            iv.item_id,
+            iv.item_quantidade,
+            iv.item_precounit,
+            iv.item_venda_id,
+            iv.item_produto_id,
+            p.produto_nome,
+            p.produto_imagem
+        FROM itens_venda iv
+        INNER JOIN produtos p
+            ON p.produto_id = iv.item_produto_id
+        WHERE iv.item_venda_id = $1
+        `,
+        [venda_id]
+    );
 
-    return result.rows
+    return result.rows.map((item) => ({
+        ...item,
+        produto_imagem: item.produto_imagem
+            ? Buffer.from(item.produto_imagem).toString("base64")
+            : null,
+    }));
+}
+
+//barra de pesquisa
+export async function vendaSearch(id?: string) {
+    let result;
+
+    if (id?.trim()) {
+        result = await db.query(
+            `
+            SELECT *
+            FROM vendas
+            WHERE CAST(venda_id AS TEXT) ILIKE $1
+            ORDER BY venda_id ASC
+            `,
+            [`%${id}%`]
+        );
+    } else {
+        result = await db.query(
+            `
+            SELECT *
+            FROM vendas
+            ORDER BY venda_id ASC
+            `
+        );
+    }
+
+    return result.rows;
+}
+
+//cancelar venda
+export async function cancelarVenda(venda_id: number) {
+    // Iniciamos uma transação para garantir que as duas atualizações aconteçam juntas
+    await db.query("BEGIN");
+
+    try {
+        // 1. Atualiza o status da venda e a data de cancelamento
+        await db.query(
+            `
+            UPDATE vendas
+            SET 
+                venda_status = $1,
+                cancelada_em = NOW()
+            WHERE venda_id = $2
+            `,
+            [
+                "cancelada",
+                venda_id
+            ]
+        );
+
+        // 2. Busca o ID do produto (item_produto_id) que estava nessa venda
+        await db.query(
+            `
+            UPDATE produtos
+            SET produto_status = 'disponivel'
+            WHERE produto_id IN (
+                SELECT item_produto_id 
+                FROM itens_venda 
+                WHERE item_venda_id = $1
+            )
+            `,
+            [venda_id]
+        );
+
+        // Se os dois comandos rodarem com sucesso, salvamos no banco
+        await db.query("COMMIT");
+
+        return {
+            success: true,
+        };
+
+    } catch (error) {
+        // Se der qualquer erro, desfaz tudo para não desorganizar o sistema
+        await db.query("ROLLBACK");
+        console.error("Erro ao cancelar venda e liberar produto:", error);
+        return {
+            success: false,
+            error: "Não foi possível cancelar a venda.",
+        };
+    }
 }

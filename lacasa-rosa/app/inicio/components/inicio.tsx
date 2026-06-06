@@ -28,7 +28,6 @@ type ProdutosProps = {
     produto_imagem: string;
     produto_estoque: number;
     produto_status: string;
-
 }
 
 const poppins = Poppins({

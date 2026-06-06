@@ -55,7 +55,7 @@ export default async function Estoque(
                         />
 
                         <SearchBar 
-                            placeholder="Pesquise aqui..."
+                            placeholder="Pesquise pelo nome do produto..."
                             className="outline-none p-1 w-full ml-5" 
                         />
                     </div>
