@@ -23,7 +23,7 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
     );
 
     const [mensagem, setMensagem] = useState("");
-
+    
     async function handleSubmit(formData: FormData) {        
         const result = await produtoPut(formData)
 

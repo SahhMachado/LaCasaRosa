@@ -52,18 +52,19 @@ export async function produtoGetId<ProdutoProps>(produto_id: number) {
 }
 
 //barra de pesquisa e busca de produtos
-export async function produtoSearch(nome?: string) {
+export async function produtoSearch(nome?: string, apenasDisponiveis = false) {
     const result = await db.query(
         `
         SELECT *
         FROM produtos
-        WHERE $1::text IS NULL
-           OR produto_nome ILIKE $2
+        WHERE ($1::text IS NULL OR produto_nome ILIKE $2)
+          AND ($3::boolean = FALSE OR produto_status = 'disponivel')
         ORDER BY LOWER(produto_nome)
         `,
         [
             nome || null,
-            `%${nome}%`
+            `%${nome}%`,
+            apenasDisponiveis // $3 indica se deve aplicar o filtro de disponibilidade
         ]
     );
 

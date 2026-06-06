@@ -9,9 +9,9 @@ export default async function Page(
   }
 ) {
 
-  const { pesquisa } = await searchParams;
+  const { pesquisa } = (await searchParams) || {};
 
-  const produtos = await produtoSearch(pesquisa);
+  const produtos = await produtoSearch(pesquisa, true);
 
   return (
     <Inicio produtos={produtos} />

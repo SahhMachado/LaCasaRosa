@@ -51,6 +51,31 @@ export async function userGetId<UserProps>(usuario_id: number) {
     return user
 }
 
+//barra de pesquisa e busca de usuários
+export async function usuarioSearch(nome?: string) {
+    const result = await db.query(
+        `
+        SELECT *
+        FROM usuarios
+        WHERE $1::text IS NULL
+           OR usuario_nome ILIKE $2
+           OR usuario_email ILIKE $2
+        ORDER BY LOWER(usuario_nome)
+        `,
+        [
+            nome || null,
+            `%${nome}%`
+        ]
+    );
+
+    return result.rows.map((user) => ({
+        ...user,
+        usuario_imagem: user.usuario_imagem
+            ? Buffer.from(user.usuario_imagem).toString("base64")
+            : null,
+    }));
+}
+
 //incluir usuário
 export async function userPost(formData: FormData) {
     const usuario_nome = formData.get("nome")
