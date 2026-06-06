@@ -37,7 +37,7 @@ export default function Editar({ usuario }: { usuario: UserProps }) {
     async function handleSubmit(formData: FormData) {
         const result = await userPut(formData)
 
-        if (result.sucess == true) {
+        if (result.success == true) {
             setMensagem(`${result.message}`);
             setTimeout(() => {
                 setMensagem("");
@@ -93,7 +93,8 @@ export default function Editar({ usuario }: { usuario: UserProps }) {
                     value={usuario.usuario_id}
                     type="text"
                     className="hidden mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
-                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
+                                    placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" 
+                />
                 <label>Nome:</label>
                 <input
                     name="nome"

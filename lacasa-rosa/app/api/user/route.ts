@@ -16,7 +16,7 @@ export interface UserProps {
 //buscar todos os usuários
 export async function userGetAll() {
     const result = await db.query(
-    "SELECT * FROM usuarios"
+        "SELECT * FROM usuarios"
     )
 
     return result.rows.map((user) => ({
@@ -29,22 +29,22 @@ export async function userGetAll() {
 
 //buscar informações por ID de usuário
 export async function userGetId<UserProps>(usuario_id: number) {
-    if(!usuario_id){
-        return{
-            sucess: false,
+    if (!usuario_id) {
+        return {
+            success: false,
             message: "Usuário não encontrado!"
         }
     }
 
     const result = await db.query(
-    "SELECT * FROM usuarios WHERE usuario_id = $1", [usuario_id]
+        "SELECT * FROM usuarios WHERE usuario_id = $1", [usuario_id]
     )
 
     const user = result.rows[0]
 
     const imagemBase64 = user?.usuario_imagem
-    ? Buffer.from(user.usuario_imagem).toString("base64")
-    : null;
+        ? Buffer.from(user.usuario_imagem).toString("base64")
+        : null;
 
     user.usuario_imagem = imagemBase64
 
@@ -53,8 +53,8 @@ export async function userGetId<UserProps>(usuario_id: number) {
 
 //incluir usuário
 export async function userPost(formData: FormData) {
-    const usuario_nome = formData.get("nome") 
-    const usuario_cpf = formData.get("cpf") 
+    const usuario_nome = formData.get("nome")
+    const usuario_cpf = formData.get("cpf")
     const usuario_email = formData.get("email")
     const usuario_senha = formData.get("senha")
     const usuario_role = "normal"
@@ -63,11 +63,11 @@ export async function userPost(formData: FormData) {
         "SELECT usuario_cpf, usuario_email FROM usuarios WHERE usuario_cpf = $1 OR usuario_email = $2", [usuario_cpf, usuario_email]
     )
 
-    if(result.rows[0]){
+    if (result.rows[0]) {
         const user = result.rows[0]
 
-        return{
-            sucess: false,  
+        return {
+            success: false,
             message: user.usuario_cpf == usuario_cpf ? "O CPF já existe!" : "O e-mail já existe!"
         }
     }
@@ -96,31 +96,34 @@ export async function userPost(formData: FormData) {
             usuario_senha,  // $4
             usuario_role    // $5
         ]
-    );   
+    );
 
-    return{
-        sucess: true
+    return {
+        success: true
     }
 }
 
 //alterar imagem de perfil
 export async function userPutImage(formData: FormData) {
     const usuario_id = 1
-    const usuario_imagem = formData.get("imagem") as File
+    const usuario_imagem = formData.get("imagem")
 
-    if (!usuario_imagem || usuario_imagem.size === 0) {
+    if (
+        !(usuario_imagem instanceof File) ||
+        usuario_imagem.size === 0
+    ) {
         throw new Error("Nenhuma imagem enviada");
     }
 
     const bytes = await usuario_imagem.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    
+
     await db.query("UPDATE usuarios SET usuario_imagem = $1 WHERE usuario_id = $2",
         [buffer, usuario_id]
     );
 
     return {
-        sucess: true,
+        success: true,
         message: "Imagem salva!"
     };
 }
@@ -128,22 +131,29 @@ export async function userPutImage(formData: FormData) {
 //alterar usuário
 export async function userPut(formData: FormData) {
     const usuario_id = formData.get("id")
-    const usuario_imagem = formData.get("imagem") as File
-    const usuario_nome = formData.get("nome") 
-    const usuario_cpf = formData.get("cpf") 
+    const usuario_imagem = formData.get("imagem")
+    const usuario_nome = formData.get("nome")
+    const usuario_cpf = formData.get("cpf")
     const usuario_email = formData.get("email")
     const usuario_senha = formData.get("senha")
     const usuario_role = formData.get("tipouser")
     const usuario_ativo = formData.get("status")
 
-    const bytes = await usuario_imagem.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    
+    let buffer = null;
+
+    if (
+        usuario_imagem instanceof File &&
+        usuario_imagem.size > 0
+    ) {
+        const bytes = await usuario_imagem.arrayBuffer();
+        buffer = Buffer.from(bytes);
+    }
+
     await db.query(
         `
         UPDATE usuarios
         SET
-            usuario_imagem = $1,
+            usuario_imagem = COALESCE($1, usuario_imagem),
             usuario_nome   = $3,
             usuario_cpf    = $4,
             usuario_email  = $5,
@@ -165,7 +175,7 @@ export async function userPut(formData: FormData) {
     );
 
     return {
-        sucess: true,
+        success: true,
         message: "Alterações salvas!"
     };
 }
