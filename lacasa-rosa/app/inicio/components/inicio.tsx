@@ -17,6 +17,7 @@ type ItemCarrinho = {
     preco: number;
     imagem: string;
     quantidade: number;
+    estoque: number,
 };
 
 type ProdutosProps = {
@@ -125,6 +126,7 @@ export default function Inicio({ produtos }: { produtos: ProdutosProps[] }) {
                                         preco: produto.produto_preco,
                                         imagem: produto.produto_imagem,
                                         quantidade: 1,
+                                        estoque: produto.produto_estoque,
                                     })
                                 }
                                     className="bg-[#F25EA3] p-1 rounded-md shadow-md mt-5 hover:scale-110">

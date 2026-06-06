@@ -18,7 +18,7 @@ export default function Modal({ aberto, fechar, vendaId }: ModalProps) {
         const result = await cancelarVenda(vendaId);
 
         if (result.success) {
-            router.push("/venda-cancelada");
+            router.replace("/venda-cancelada");
         }
     };
 

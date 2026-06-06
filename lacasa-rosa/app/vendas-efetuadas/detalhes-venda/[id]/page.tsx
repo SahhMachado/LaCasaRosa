@@ -59,7 +59,7 @@ export default async function DetalhesVenda({
                                     {item.produto_nome}
                                 </p>
                                 <p className="mr-23 2xl:mr-38 min-w-45 max-w-45">
-                                    {Number(item.item_precounit).toLocaleString("pt-BR", {
+                                    {Number(item.produto_preco).toLocaleString("pt-BR", {
                                         style: "currency",
                                         currency: "BRL",
                                     })}
@@ -68,7 +68,7 @@ export default async function DetalhesVenda({
                                     {item.item_quantidade} un.
                                 </p>
                                 <p className="mr-23 2xl:mr-38 min-w-45 max-w-45">
-                                    {Number(Number(item.item_quantidade) * Number(item.item_precounit)).toLocaleString("pt-BR", {
+                                    {Number(Number(item.item_quantidade) * Number(item.produto_preco)).toLocaleString("pt-BR", {
                                         style: "currency",
                                         currency: "BRL",
                                     })}

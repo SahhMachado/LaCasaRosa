@@ -12,6 +12,7 @@ import { BsFillXSquareFill } from "react-icons/bs";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { vendaPost, vendaProdutoPost, VendaProps } from "../api/vendas/route";
 
 type ItemCarrinho = {
     id: number;
@@ -19,15 +20,16 @@ type ItemCarrinho = {
     preco: number;
     imagem: string;
     quantidade: number;
+    estoque: number;
 };
 
 const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
+    subsets: ["latin"],
+    weight: ["300", "400", "500", "700"],
 });
 
 const majorMono = Major_Mono_Display({
-  subsets: ["latin"],
+    subsets: ["latin"],
     weight: "400",
 });
 
@@ -39,31 +41,38 @@ export default function FinalizarVenda() {
 
     //carregar do localStorage
     useEffect(() => {
-    const carrinhoSalvo = localStorage.getItem("carrinho");
+        const carrinhoSalvo = localStorage.getItem("carrinho");
         if (carrinhoSalvo) {
             setCarrinho(JSON.parse(carrinhoSalvo));
         }
 
-            setCarregado(true);
-        }, []);
+        setCarregado(true);
+    }, []);
 
     //salvar quando mudar
     useEffect(() => {
         if (!carregado) return;
-            localStorage.setItem(
-                "carrinho",
-                JSON.stringify(carrinho)
-            );
+        localStorage.setItem(
+            "carrinho",
+            JSON.stringify(carrinho)
+        );
     }, [carrinho, carregado]);
 
     //aumentar quantidade 
     const aumentar = (id: number) => {
         setCarrinho((atual) =>
-            atual.map((item) =>
-            item.id === id
-                ? { ...item, quantidade: item.quantidade + 1 }
-                : item
-            )
+            atual.map((item) => {
+                if (item.id !== id) return item;
+
+                if (item.quantidade >= item.estoque) {
+                    return item;
+                }
+
+                return {
+                    ...item,
+                    quantidade: item.quantidade + 1,
+                };
+            })
         );
     };
 
@@ -71,9 +80,9 @@ export default function FinalizarVenda() {
     const diminuir = (id: number) => {
         setCarrinho((atual) =>
             atual.map((item) =>
-            item.id === id && item.quantidade > 1
-            ? { ...item, quantidade: item.quantidade - 1 }
-            : item
+                item.id === id && item.quantidade > 1
+                    ? { ...item, quantidade: item.quantidade - 1 }
+                    : item
             )
         );
     };
@@ -88,16 +97,38 @@ export default function FinalizarVenda() {
     //calcular total
     const total = carrinho.reduce(
         (acc, item) => acc + item.preco * item.quantidade,
-            0
+        0
     );
 
-    //concluir venda
     const router = useRouter();
 
-    const concluir = (e: React.FormEvent) => {
+    //concluir venda
+    const concluir = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // salvar a venda no banco
+        const tipoPagamento = e.currentTarget.querySelector("#pagamento") as HTMLInputElement;
+        console.log(total)
+        console.log(tipoPagamento.value)
+
+        const oVenda: VendaProps = {
+            venda_total: total,
+            venda_formapagto: tipoPagamento.value,
+            usuario_id: 1
+        }
+
+        const oResponseVenda = await vendaPost(oVenda)
+
+        if (!oResponseVenda.success) {
+            return;
+        }
+
+        for (const item of carrinho) {
+            await vendaProdutoPost({
+                venda_id: oResponseVenda.id,
+                produto_id: item.id,
+                quantidade: item.quantidade
+            });
+        }
 
         localStorage.removeItem("carrinho");
         setCarrinho([]);
@@ -105,11 +136,11 @@ export default function FinalizarVenda() {
         router.push("/venda-finalizada");
     };
 
-    return(
+    return (
         <div className={poppins.className + " relative w-screen min-h-screen flex flex-col bg-[#F2EBD5] text-black overflow-hidden"}>
-           
-           <CirclesTop />
-           <CirclesBottom />
+
+            <CirclesTop />
+            <CirclesBottom />
 
             {/* Título */}
             <div className="relative z-10 flex flex-col flex-1">
@@ -131,21 +162,42 @@ export default function FinalizarVenda() {
                             carrinho.map((item) => (
                                 <div key={item.id} className="bg-[#F25EA3] h-20 rounded-lg border-2 border-[#F2EBD5] mb-10 
                                             flex text-center items-center">
-                                    <img src={item.imagem} className="w-15 h-15 rounded-full border-4 border-[#F2EBD5] ml-5 mr-10" />
+                                    <img src={`data:image/jpeg;base64,${item.imagem}`}
+                                        className="w-15 h-15 rounded-full border-4 border-[#F2EBD5] ml-5 mr-10"
+                                    />
                                     <p className="mr-30 2xl:mr-70 min-w-45">{item.nome}</p>
-                                    <p  className="mr-23 2xl:mr-38 min-w-45">
-                                        {item.preco.toLocaleString("pt-BR", {
+                                    <p className="mr-23 2xl:mr-38 min-w-45">
+                                        {Number(item.preco).toLocaleString("pt-BR", {
                                             style: "currency",
                                             currency: "BRL",
                                         })}
                                     </p>
-                                    <p  className="mr-12 2xl:mr-62 min-w-45">{item.quantidade} un.</p>
+                                    <p className="mr-12 2xl:mr-62 min-w-45">{item.quantidade} un.</p>
 
-                                    <button type="button" onClick={() => aumentar(item.id)} className="mr-5 hover:scale-110">
+                                    <button
+                                        type="button"
+                                        onClick={() => aumentar(item.id)}
+                                        disabled={item.quantidade >= item.estoque}
+                                        className={` 
+                                            mr-5
+                                            ${item.quantidade >= item.estoque
+                                                ? "opacity-40 cursor-not-allowed"
+                                                : "hover:scale-110"}
+                                        `}
+                                    >
                                         <BsPlusSquareFill size={25} />
                                     </button>
-                                    
-                                    <button type="button" onClick={() => diminuir(item.id)} className="mr-5 hover:scale-110">
+
+                                    <button type="button" 
+                                        onClick={() => diminuir(item.id)} 
+                                        disabled={item.quantidade == 1}
+                                        className={` 
+                                            mr-5
+                                            ${item.quantidade >= item.estoque
+                                                ? "opacity-40 cursor-not-allowed"
+                                                : "hover:scale-110"}
+                                        `}
+                                    >
                                         <PiMinusSquareFill size={33} />
                                     </button>
 
@@ -161,8 +213,8 @@ export default function FinalizarVenda() {
                     <div className="flex text-center items-center font-bold">
                         <span className="bg-[#F2594B] text-[#F2EBD5] p-2 absolute z-10 text-center items-center right-98 mt-7">
                             <label className="mr-2">Pagto.:</label>
-                            <select name="pagamento" id="pagamento" 
-                            className="w-30 bg-[#F2594B] transition-colors outline-none
+                            <select name="pagamento" id="pagamento"
+                                className="w-30 bg-[#F2594B] transition-colors outline-none
                                         appearance-none" defaultValue="dinheiro">
                                 <option value="dinheiro" className="bg-[#F2EBD5] text-[#F2594B]">Dinheiro</option>
                                 <option value="pix" className="bg-[#F2EBD5] text-[#F2594B]">PIX</option>
@@ -175,7 +227,8 @@ export default function FinalizarVenda() {
 
                         <span className="bg-[#F2594B] text-[#F2EBD5] p-2 absolute min-w-45 max-w-45 flex text-center items-center gap-x-5 right-48 2xl:right-50 mt-7">
                             <p>Total:</p>
-                            <p>{total.toLocaleString("pt-BR", {
+                            <p>
+                                {total.toLocaleString("pt-BR", {
                                     style: "currency",
                                     currency: "BRL",
                                 })}
