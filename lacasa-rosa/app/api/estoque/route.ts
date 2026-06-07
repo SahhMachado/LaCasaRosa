@@ -99,10 +99,24 @@ export async function produtoPost(formData: FormData) {
 
     let buffer = null;
 
-    if (
-        produto_imagem instanceof File &&
-        produto_imagem.size > 0
-    ) {
+      if (produto_imagem instanceof File) {
+
+        // valida se foi enviada uma imagem
+        if (produto_imagem.size === 0) {
+            return {
+                success: false,
+                message: "Selecione uma imagem para o produto!"
+            };
+        }
+
+        // valida tamanho máximo (5 MB)
+        if (produto_imagem.size > 5 * 1024 * 1024) {
+            return {
+                success: false,
+                message: "A imagem deve ter no máximo 5 MB!"
+            };
+        }
+
         const bytes = await produto_imagem.arrayBuffer();
         buffer = Buffer.from(bytes);
     }
@@ -159,10 +173,24 @@ export async function produtoPut(formData: FormData) {
 
     let buffer = null;
 
-    if (
-        produto_imagem instanceof File &&
-        produto_imagem.size > 0
-    ) {
+      if (produto_imagem instanceof File) {
+
+        // valida se foi enviada uma imagem
+        if (produto_imagem.size === 0) {
+            return {
+                success: false,
+                message: "Selecione uma imagem para o produto!"
+            };
+        }
+
+        // valida tamanho máximo (5 MB)
+        if (produto_imagem.size > 5 * 1024 * 1024) {
+            return {
+                success: false,
+                message: "A imagem deve ter no máximo 5 MB!"
+            };
+        }
+
         const bytes = await produto_imagem.arrayBuffer();
         buffer = Buffer.from(bytes);
     }

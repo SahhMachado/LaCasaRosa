@@ -27,13 +27,11 @@ export default function Visualizar({ produto }: { produto: ProdutoProps }) {
     async function handleSubmit(formData: FormData) {
         const result = await produtoPut(formData)
 
-        if (result.success == true) {
-            setMensagem(`${result.message}`);
+        setMensagem(result.message);
 
-            setTimeout(() => {
-                setMensagem("");
-            }, 2000);
-        }
+        setTimeout(() => {
+            setMensagem("");
+        }, 3000);
     }
 
     return (
