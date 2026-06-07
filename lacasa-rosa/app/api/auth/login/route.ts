@@ -14,20 +14,20 @@ export async function loginAction(formData: FormData) {
 
     if(!user){
         return{
-            sucess: false,
+            success: false,
             message: "Usuário não encontrado!"
         }
     }
 
     if(senha !== user.usuario_senha){
         return{
-            sucess: false,
+            success: false,
             message: "Senha inválida!"
         }
     }
 
     return{
-        sucess: true,
+        success: true,
         user_id: user.usuario_id
     }
 }

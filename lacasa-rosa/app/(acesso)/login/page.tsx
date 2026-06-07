@@ -35,7 +35,7 @@ export default function Login() {
 
         console.log(result)
 
-        if(result.sucess == true){
+        if(result.success == true){
             router.replace("/inicio");
         }else{
             setMensagem(`${result.message}`);

@@ -44,14 +44,14 @@ export default function Cadastro() {
     async function handleSubmit(formData: FormData) {
         const result = await userPost(formData)
 
-        if(result.sucess == false){
+        if(result.success == false){
             setMensagem(`${result.message}`);
             setTimeout(() => {
             setMensagem("");
         }, 2000);
         }
             
-        if(result.sucess == true) router.replace("/login");
+        if(result.success == true) router.replace("/login");
     }
     
     return(
