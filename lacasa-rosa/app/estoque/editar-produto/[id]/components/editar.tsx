@@ -8,7 +8,7 @@ import { NumericFormat } from "react-number-format";
 import { ProdutoProps, produtoPut } from "@/app/api/estoque/route";
 import { useRouter } from "next/navigation";
 
-export default function Editar({ produto }: { produto: ProdutoProps}) {
+export default function Editar({ produto }: { produto: ProdutoProps }) {
     // Estado para controlar o preview da imagem carregada
     const [preview, setPreview] = useState<string | null>(null);
 
@@ -26,19 +26,17 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
     const [mensagem, setMensagem] = useState("");
 
     const router = useRouter();
-    
-    async function handleSubmit(formData: FormData) {        
+
+    async function handleSubmit(formData: FormData) {
         const result = await produtoPut(formData)
 
-        if (result.success == true) {
-            setMensagem(`${result.message}`);
+        setMensagem(result.message);
 
-            setTimeout(() => {
-                setMensagem("");
-            }, 2000);
+        setTimeout(() => {
+            setMensagem("");
+        }, 3000);
 
-            router.refresh();
-        }
+        router.refresh();
     }
 
     return (
@@ -59,7 +57,7 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
                             className="hidden"
                             onChange={handleFileChange} />
 
-                         {/* Imagem */}
+                        {/* Imagem */}
                         <div className="w-25 h-25 rounded-full bg-[#F2594B] text-[#F2EBD5] 
                                                                         flex flex-col items-center justify-center shadow-lg">
                             {preview ? (
@@ -91,18 +89,18 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold"
                 />
                 <label>Nome:</label>
-                <input placeholder="Informe o nome do produto aqui..." 
-                        required
-                        defaultValue={produto.produto_nome}
-                        name="nome"
-                        type="text"
-                        className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                <input placeholder="Informe o nome do produto aqui..."
+                    required
+                    defaultValue={produto.produto_nome}
+                    name="nome"
+                    type="text"
+                    className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                 <label>Valor:</label>
                 <NumericFormat
                     required
-                    placeholder="0,00" 
+                    placeholder="0,00"
                     value={preco}
                     onValueChange={(values) => {
                         setPreco(values.value); // ex: "1234.56"
@@ -122,29 +120,29 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
                 />
 
                 <label>Quantidade:</label>
-                <input defaultValue={produto.produto_estoque} 
-                        min={1}
-                        placeholder="Informe a quantidade em estoque aqui..." 
-                        name="quantidade" 
-                        type="number"
-                        className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                <input defaultValue={produto.produto_estoque}
+                    min={1}
+                    placeholder="Informe a quantidade em estoque aqui..."
+                    name="quantidade"
+                    type="number"
+                    className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                 <label>Tamanho:</label>
                 <input placeholder="Informe o tamanho aqui..."
-                        required
-                        defaultValue={produto.produto_tamanho}
-                        name="tamanho"
-                        type="text"
-                        className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                    required
+                    defaultValue={produto.produto_tamanho}
+                    name="tamanho"
+                    type="text"
+                    className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                 <label>Categoria:</label>
-                <input placeholder="Exemplo: Blusas, Calças, Sapatos" 
-                        defaultValue={produto.produto_categoria}
-                        name="categoria" 
-                        type="text"
-                        className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
+                <input placeholder="Exemplo: Blusas, Calças, Sapatos"
+                    defaultValue={produto.produto_categoria}
+                    name="categoria"
+                    type="text"
+                    className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
 
                 <label>Situação:</label><br />
