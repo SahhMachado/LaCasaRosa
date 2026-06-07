@@ -1,8 +1,7 @@
-import Image from "next/image";
-import Page from "./inicio/page";
+import Login from "./(acesso)/login/page";
 
 export default function Home() {
   return (
-    <Page />
+    <Login />
   );
 }

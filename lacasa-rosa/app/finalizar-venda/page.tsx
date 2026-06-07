@@ -188,8 +188,8 @@ export default function FinalizarVenda() {
                                         <BsPlusSquareFill size={25} />
                                     </button>
 
-                                    <button type="button" 
-                                        onClick={() => diminuir(item.id)} 
+                                    <button type="button"
+                                        onClick={() => diminuir(item.id)}
                                         disabled={item.quantidade == 1}
                                         className={` 
                                             mr-5
@@ -242,8 +242,18 @@ export default function FinalizarVenda() {
                                                         justify-center shadow-md hover:scale-110">
                             <FaArrowLeft size={30} className="text-[#F2594B]" />
                         </Link>
-                        <button type="submit" id="concluir" className="bg-[#F2C84B] w-50 p-2 font-bold text-[#F2594B] text-lg rounded-md
-                                                        shadow-md hover:scale-110">
+                        <button
+                            type="submit"
+                            id="concluir"
+                            disabled={carrinho.length === 0}
+                            className={`
+                                w-50 p-2 font-bold text-lg rounded-md shadow-md
+                                ${carrinho.length === 0
+                                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
+                                    : "bg-[#F2C84B] text-[#F2594B] hover:scale-110"
+                                }
+                            `}
+                        >
                             Concluir
                         </button>
                     </div>
