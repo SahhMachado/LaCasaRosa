@@ -8,7 +8,7 @@ import CirclesBottom from "@/app/components/circles-bottom";
 import BackgroundStripes from "@/app/components/background-stripes";
 import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
-import Incluir from "./components/incluir";
+import Incluir from "./components/incluir-produto";
 
 const poppins = Poppins({
   subsets: ["latin"],

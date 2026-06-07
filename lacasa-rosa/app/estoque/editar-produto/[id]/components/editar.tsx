@@ -6,6 +6,7 @@ import { useState } from "react";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { NumericFormat } from "react-number-format";
 import { ProdutoProps, produtoPut } from "@/app/api/estoque/route";
+import { useRouter } from "next/navigation";
 
 export default function Editar({ produto }: { produto: ProdutoProps}) {
     // Estado para controlar o preview da imagem carregada
@@ -23,6 +24,8 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
     );
 
     const [mensagem, setMensagem] = useState("");
+
+    const router = useRouter();
     
     async function handleSubmit(formData: FormData) {        
         const result = await produtoPut(formData)
@@ -33,6 +36,8 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
             setTimeout(() => {
                 setMensagem("");
             }, 2000);
+
+            router.refresh();
         }
     }
 

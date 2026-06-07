@@ -6,6 +6,7 @@ import { useState } from "react";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { NumericFormat } from "react-number-format";
 import { produtoPost } from "@/app/api/estoque/route";
+import { useRouter } from "next/navigation";
 
 export default function Incluir() {
     // Estado para controlar o preview da imagem carregada
@@ -22,6 +23,8 @@ export default function Incluir() {
 
     const [mensagem, setMensagem] = useState("");
 
+    const router = useRouter();
+
     async function handleSubmit(formData: FormData) {        
         const result = await produtoPost(formData)
 
@@ -32,6 +35,8 @@ export default function Incluir() {
                 setMensagem("");
             }, 2000);
         }
+
+        router.refresh();
     }
 
     return (

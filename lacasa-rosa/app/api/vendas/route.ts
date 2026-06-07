@@ -255,15 +255,43 @@ export async function vendaPost(oVenda: VendaProps) {
 
 //cancelar venda
 export async function cancelarVenda(venda_id: number) {
-    // Iniciamos uma transação para garantir que as duas atualizações aconteçam juntas
     await db.query("BEGIN");
 
     try {
-        // 1. Atualiza o status da venda e a data de cancelamento
+        // Verifica se a venda existe
+        const venda = await db.query(
+            `
+            SELECT venda_status
+            FROM vendas
+            WHERE venda_id = $1
+            `,
+            [venda_id]
+        );
+
+        if (!venda.rows[0]) {
+            await db.query("ROLLBACK");
+
+            return {
+                success: false,
+                error: "Venda não encontrada."
+            };
+        }
+
+        // Impede cancelamento duplicado
+        if (venda.rows[0].venda_status === "cancelada") {
+            await db.query("ROLLBACK");
+
+            return {
+                success: false,
+                error: "Esta venda já foi cancelada."
+            };
+        }
+
+        // Atualiza status da venda
         await db.query(
             `
             UPDATE vendas
-            SET 
+            SET
                 venda_status = $1,
                 cancelada_em = NOW()
             WHERE venda_id = $2
@@ -274,34 +302,36 @@ export async function cancelarVenda(venda_id: number) {
             ]
         );
 
-        // 2. Busca o ID do produto (item_produto_id) que estava nessa venda
+        // Devolve os itens ao estoque
         await db.query(
             `
-            UPDATE produtos
-            SET produto_status = 'disponivel'
-            WHERE produto_id IN (
-                SELECT produto_id 
-                FROM itens_venda 
-                WHERE venda_id = $1
-            )
+            UPDATE produtos p
+            SET
+                produto_estoque = p.produto_estoque + iv.item_quantidade,
+                produto_status = 'disponivel'
+            FROM itens_venda iv
+            WHERE
+                iv.produto_id = p.produto_id
+                AND iv.venda_id = $1
             `,
             [venda_id]
         );
 
-        // Se os dois comandos rodarem com sucesso, salvamos no banco
         await db.query("COMMIT");
 
         return {
             success: true,
+            message: "Venda cancelada com sucesso."
         };
 
     } catch (error) {
-        // Se der qualquer erro, desfaz tudo para não desorganizar o sistema
         await db.query("ROLLBACK");
-        console.error("Erro ao cancelar venda e liberar produto:", error);
+
+        console.error("Erro ao cancelar venda:", error);
+
         return {
             success: false,
-            error: "Não foi possível cancelar a venda.",
+            error: "Não foi possível cancelar a venda."
         };
     }
 }
