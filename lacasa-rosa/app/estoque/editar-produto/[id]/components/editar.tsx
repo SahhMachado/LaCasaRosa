@@ -87,6 +87,7 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
                 />
                 <label>Nome:</label>
                 <input placeholder="Informe o nome do produto aqui..." 
+                        required
                         defaultValue={produto.produto_nome}
                         name="nome"
                         type="text"
@@ -95,6 +96,7 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
 
                 <label>Valor:</label>
                 <NumericFormat
+                    required
                     placeholder="0,00" 
                     value={preco}
                     onValueChange={(values) => {
@@ -116,6 +118,7 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
 
                 <label>Quantidade:</label>
                 <input defaultValue={produto.produto_estoque} 
+                        min={1}
                         placeholder="Informe a quantidade em estoque aqui..." 
                         name="quantidade" 
                         type="number"
@@ -124,6 +127,7 @@ export default function Editar({ produto }: { produto: ProdutoProps}) {
 
                 <label>Tamanho:</label>
                 <input placeholder="Informe o tamanho aqui..."
+                        required
                         defaultValue={produto.produto_tamanho}
                         name="tamanho"
                         type="text"

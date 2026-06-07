@@ -98,6 +98,7 @@ export default function Editar({ usuario }: { usuario: UserProps }) {
                 <label>Nome:</label>
                 <input
                     name="nome"
+                    required
                     defaultValue={usuario.usuario_nome}
                     type="text"
                     className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
@@ -106,6 +107,7 @@ export default function Editar({ usuario }: { usuario: UserProps }) {
                 <label>CPF:</label>
                 <input
                     name="cpf"
+                    required
                     placeholder="Informe o CPF aqui, com pontos e traço..."
                     onChange={(e) => setCpf(formatCPF(e.target.value))}
                     defaultValue={usuario.usuario_cpf}
@@ -116,6 +118,7 @@ export default function Editar({ usuario }: { usuario: UserProps }) {
                 <label>E-mail:</label>
                 <input
                     name="email"
+                    required
                     defaultValue={usuario.usuario_email}
                     type="email"
                     className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
@@ -124,6 +127,7 @@ export default function Editar({ usuario }: { usuario: UserProps }) {
                 <label>Senha:</label>
                 <input
                     name="senha"
+                    required
                     defaultValue={usuario.usuario_senha}
                     type={showPassword ? "text" : "password"}
                     className="mb-5 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md

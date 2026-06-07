@@ -71,6 +71,7 @@ export default function Incluir() {
                 </div>
                 <label>Nome:</label>
                 <input placeholder="Informe o nome do produto aqui..." 
+                        required
                         name="nome"
                         type="text"
                         className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
@@ -78,6 +79,7 @@ export default function Incluir() {
 
                 <label>Valor:</label>
                 <NumericFormat
+                    required
                     placeholder="0,00" 
                     value={preco}
                     onValueChange={(values) => {
@@ -99,6 +101,8 @@ export default function Incluir() {
 
                 <label>Quantidade:</label>
                 <input defaultValue={1} 
+                        min={1}
+                        required
                         placeholder="Informe a quantidade em estoque aqui..." 
                         name="quantidade" 
                         type="number"
@@ -108,6 +112,7 @@ export default function Incluir() {
                 <label>Tamanho:</label>
                 <input placeholder="Informe o tamanho aqui..."
                         name="tamanho"
+                        required
                         type="text"
                         className="mb-3 w-full h-auto px-3 p-1 bg-[#F2C84B] rounded-md outline-none focus:outline-none shadow-md
                                     placeholder:font-light placeholder:text-black placeholder:text-sm placeholder:opacity-60 text-[#F2594B] font-bold" />
