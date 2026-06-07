@@ -70,7 +70,7 @@ export default function Inicio({ produtos }: { produtos: ProdutosProps[] }) {
             JSON.stringify(carrinhoAtual)
         );
 
-        setMensagem(`${produto.nome} adicionado ao carrinho!`);
+        setMensagem(`${produto.nome} adicionado(a) ao carrinho!`);
         setTimeout(() => {
             setMensagem("");
         }, 2000);
