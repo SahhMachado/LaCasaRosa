@@ -34,7 +34,7 @@ export default async function Estoque(
         searchParams: Promise<{ pesquisa?: string }>
     }
 ) {
-    const { pesquisa } = await searchParams;
+    const { pesquisa } = (await searchParams) || {};
 
     const produtos = await produtoSearch(pesquisa);
 

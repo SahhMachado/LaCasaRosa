@@ -8,7 +8,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { FaArrowLeft, FaEye } from "react-icons/fa";
 import { BiSolidEdit } from "react-icons/bi";
 import Link from "next/link";
-import { userGetAll, UserProps, usuarioSearch } from "../api/user/route";
+import { usuarioSearch } from "../api/user/route";
 import SearchBar from "../components/searchbar";
 
 const poppins = Poppins({

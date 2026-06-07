@@ -8,7 +8,7 @@ export default async function Page(
     searchParams: Promise<{ pesquisa?: string }>
 }) {
 
-  const { pesquisa } = await searchParams;
+  const { pesquisa } = (await searchParams) || {};
 
   const vendas = await vendaSearch(pesquisa);
   
